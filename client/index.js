@@ -1,14 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import styles from './stylesheets/styles.scss';
 
-import { Provider } from './components/Context';
+import App from './components/App.jsx';
 
-import './index.css';
-import App from './components/App';
-
-ReactDOM.render(
-  <Provider>
-    <App />
-  </Provider>,
+render(
+  <App />,
   document.getElementById('root')
 );

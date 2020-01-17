@@ -1,16 +1,16 @@
 const express = require('express');
 const path = require('path');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 
 // Server Setup ---------------------------
 const PORT = 3000;
 const app = express();
 
 // Connect to DB --------------------------
-const { MONGO_URI } = require('../config');
-mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+// const { MONGO_URI } = require('../config');
+// mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-const connection = mongoose.connection;
+// const connection = mongoose.connection;
 
 // File Handling --------------------------
 app.use('/build', express.static(path.join(__dirname, '../build')));
