@@ -5,8 +5,45 @@ import { Link } from 'react-router-dom';
 
 const Timer = (props) => {
 
-  // let isRunning = false;
-  // let [isRunning, toggleIsRunning] = useState(true);
+/* Abramovs useInterval
+  let [previousTime, setPreviousTime] = useState(new Date(props.entry.timestamp).getTime());
+  let [elapsedTime, setElapsedTime] = useState(0);
+  let isRunning = useRef(true);
+  const savedStartTimer = useRef();
+
+  function startTimer() {
+    console.log('previousTime', previousTime);
+    console.log('elapsedTime', elapsedTime);
+    if (isRunning.current) {
+      const now = Date.now();
+      setElapsedTime(elapsedTime + (now - previousTime));
+      setPreviousTime(now);
+    }
+  }
+  
+  useEffect(() => {
+    savedStartTimer.current = startTimer;
+  });
+  
+  useEffect(() => {
+    function tick() {
+      savedStartTimer.current();
+    }
+
+    let timerInterval = setInterval(tick, 1000);
+    return () => clearInterval(timerInterval);
+  }, []);
+
+  function handlePause() {
+    isRunning.current = isRunning.current ? false : true
+    console.log('isRunning', isRunning.current);
+    if (!isRunning.current) {
+      setPreviousTime(Date.now());
+      console.log(previousTime);
+    }
+  }
+*/
+
   let [previousTime, setPreviousTime] = useState(new Date(props.entry.timestamp).getTime());
   let [elapsedTime, setElapsedTime] = useState(0);
   let isRunning = useRef(true);
@@ -35,7 +72,7 @@ const Timer = (props) => {
       console.log(previousTime);
     }
   }
-
+  
   let hours = 0, minutes = 0, seconds = 0;
   let secondsDiffence, secondsText, minutesText, hoursText;
   secondsDiffence = Math.floor(elapsedTime / 1000);
@@ -48,7 +85,7 @@ const Timer = (props) => {
   minutesText = minutes < 10 ? `0${minutes}` : `${minutes}`;
   hoursText = hours < 10 ? `0${hours}` : `${hours}`;
 
-  console.log('elapsed-->', elapsedTime);
+  console.log('elapsed outside -->', elapsedTime);
 
   return (
     <div>
