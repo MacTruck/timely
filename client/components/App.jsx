@@ -20,6 +20,7 @@ class App extends React.Component {
       taskKeyMaker: 0,
     };
   
+    this.handleLogin = this.handleLogin.bind(this);
     this.handleAddEntry = this.handleAddEntry.bind(this);
     this.handleUpdateEntry = this.handleUpdateEntry.bind(this);
     this.handleRemoveEntry = this.handleRemoveEntry.bind(this);
@@ -27,6 +28,16 @@ class App extends React.Component {
     this.handleSubmitEntry = this.handleSubmitEntry.bind(this);
     this.handleUpdateTask = this.handleUpdateTask.bind(this);
     this.handleRemoveTask = this.handleRemoveTask.bind(this);
+  }
+
+  handleLogin(loginData) {
+   fetch('/getRecords', {
+     method: 'POST',
+     headers: {
+       'Content-Type': 'application/json'
+     },
+     body: JSON.stringify({loginData}),
+   }) 
   }
 
   handleRemoveEntry(id) {
@@ -98,9 +109,11 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <Header />
+        <Header 
+          login={this.handleLogin}
+        />
         <Switch>
-          <Route path="/" render={() => 
+          <Route exact path="/" render={() => 
             <StartScreen
               entries={this.state.entries}
               addEntry={this.handleAddEntry}
@@ -111,11 +124,13 @@ class App extends React.Component {
           <Route path="/timer" render={() => 
             <TimerScreen 
               newEntry={this.state.newEntry}
-              addTask={this.handleAddTask}
-              updateEntry={this.handleUpdateEntry}
-              submitEntry={this.handleSubmitEntry}
-              updateTask={this.handleUpdateTask}
-              removeTask={this.handleRemoveTask}
+              actions={{
+                addTask: this.handleAddTask,
+                updateTask: this.handleUpdateTask,
+                removeTask: this.handleRemoveTask,
+                updateEntry: this.handleUpdateEntry,
+                submitEntry: this.handleSubmitEntry,
+              }}
             />
             } 
           />

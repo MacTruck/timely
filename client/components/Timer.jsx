@@ -1,72 +1,72 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { Link } from 'react-router-dom';
 
 
-class Timer extends React.Component {
-  constructor() {
-    super();
+const Timer = (props) => {
 
-    this.state = {
-      isRunning: true,
-      previousTime: new Date(this.props.entry.timestamp).getTime(),
-      elapsedTime: 0
-    };
-  }
+  // let isRunning = false;
+  // let [isRunning, toggleIsRunning] = useState(true);
+  let [previousTime, setPreviousTime] = useState(new Date(props.entry.timestamp).getTime());
+  let [elapsedTime, setElapsedTime] = useState(0);
+  let isRunning = useRef(true);
 
-  componentDidMount() {
-    this.timerInstance = setInterval(() => this.startTimer(), 1000);
-  }
+  useEffect(() => {
+    const timerInterval = setInterval(startTimer, 1000);
+    return () => clearInterval(timerInterval);
+  }, []);
 
-  componentWillUnmount() {
-    clearInterval(this.timerInstance);
-  }
-
-  startTimer() {
-    if (this.state.isRunning) {
+  function startTimer() {
+    console.log('previousTime', previousTime);
+    console.log('elapsedTime', elapsedTime);
+    if (isRunning.current) {
       const now = Date.now();
-      this.setState(prevState => ({
-        previousTime: now,
-        elapsedTime: prevState.elapsedTime + (now - prevState.previousTime)
-      }));
+      setElapsedTime(elapsedTime + (now - previousTime));
+      setPreviousTime(now);
     }
   }
 
-  handlePause() {
-    this.setState(prevState => ({
-      isRunning: !prevState.isRunning
-    }));
-    if (!this.state.isRunning) {
-      this.setState({
-        previousTime: Date.now()
-      });
+  function handlePause() {
+    // toggleIsRunning(isRunning => !isRunning);
+    isRunning.current = isRunning.current ? false : true
+    console.log('isRunning', isRunning.current);
+    if (!isRunning.current) {
+      setPreviousTime(Date.now());
+      console.log(previousTime);
     }
   }
 
-  render() {
-    let hours = 0, minutes = 0, seconds = 0;
-    let secondsDiffence, secondsText, minutesText, hoursText;
-    secondsDiffence = Math.floor(this.state.elapsedTime / 1000);
+  let hours = 0, minutes = 0, seconds = 0;
+  let secondsDiffence, secondsText, minutesText, hoursText;
+  secondsDiffence = Math.floor(elapsedTime / 1000);
 
-    hours = Math.floor(secondsDiffence / 3600);
-    minutes = Math.floor((secondsDiffence - (hours * 3600)) / 60);
-    seconds = Math.floor(secondsDiffence - (hours * 3600) - (minutes * 60));
+  hours = Math.floor(secondsDiffence / 3600);
+  minutes = Math.floor((secondsDiffence - (hours * 3600)) / 60);
+  seconds = Math.floor(secondsDiffence - (hours * 3600) - (minutes * 60));
 
-    secondsText = seconds < 10 ? `0${seconds}` : `${seconds}`;
-    minutesText = minutes < 10 ? `0${minutes}` : `${minutes}`;
-    hoursText = hours < 10 ? `0${hours}` : `${hours}`;
+  secondsText = seconds < 10 ? `0${seconds}` : `${seconds}`;
+  minutesText = minutes < 10 ? `0${minutes}` : `${minutes}`;
+  hoursText = hours < 10 ? `0${hours}` : `${hours}`;
 
-    return (
-      <div>
-        <div id="timer">{`${hoursText}:${minutesText}:${secondsText}`}</div>
-        <button id="pausePlay" className="mainButton" onClick={this.handlePause}>{this.state.isRunning ? 'Pause' : 'Continue'}</button>
-        <Link to="/" id="stopSave" className="mainButton" onClick={() => {
-          props.updateEntry(props.newEntry, this.state.elapsedTime, "elapsedTime");
-          props.submitEntry();
-        }}>Stop & Save</Link>
+  console.log('elapsed-->', elapsedTime);
+
+  return (
+    <div>
+      <div id="timer">
+        {`${hoursText}:${minutesText}:${secondsText}`}
       </div>
-    );
-  }
+      <button 
+        id="pausePlay"
+        className="mainButton"
+        onClick={handlePause}>
+          {isRunning.current ? 'Pause' : 'Continue'}
+      </button>
+      <Link to="/" id="stopSave" className="mainButton" onClick={() => {
+        props.updateEntry(props.newEntry, elapsedTime, "elapsedTime");
+        props.submitEntry();
+      }}>Stop & Save</Link>
+    </div>
+  );
 }
 
 export default Timer;
