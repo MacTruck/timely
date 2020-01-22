@@ -4,72 +4,29 @@ import { Link } from 'react-router-dom';
 
 
 const Timer = (props) => {
-
-/* Abramovs useInterval
-  let [previousTime, setPreviousTime] = useState(new Date(props.entry.timestamp).getTime());
-  let [elapsedTime, setElapsedTime] = useState(0);
-  let isRunning = useRef(true);
-  const savedStartTimer = useRef();
-
-  function startTimer() {
-    console.log('previousTime', previousTime);
-    console.log('elapsedTime', elapsedTime);
-    if (isRunning.current) {
-      const now = Date.now();
-      setElapsedTime(elapsedTime + (now - previousTime));
-      setPreviousTime(now);
-    }
-  }
-  
-  useEffect(() => {
-    savedStartTimer.current = startTimer;
-  });
-  
-  useEffect(() => {
-    function tick() {
-      savedStartTimer.current();
-    }
-
-    let timerInterval = setInterval(tick, 1000);
-    return () => clearInterval(timerInterval);
-  }, []);
-
-  function handlePause() {
-    isRunning.current = isRunning.current ? false : true
-    console.log('isRunning', isRunning.current);
-    if (!isRunning.current) {
-      setPreviousTime(Date.now());
-      console.log(previousTime);
-    }
-  }
-*/
-
+// declare timer hooks
   let [previousTime, setPreviousTime] = useState(new Date(props.entry.timestamp).getTime());
   let [elapsedTime, setElapsedTime] = useState(0);
   let isRunning = useRef(true);
 
-  useEffect(() => {
+// initiate interval on render
+  useEffect(() => {  
     const timerInterval = setInterval(startTimer, 1000);
     return () => clearInterval(timerInterval);
-  }, []);
+  }, [previousTime]);
 
   function startTimer() {
-    console.log('previousTime', previousTime);
-    console.log('elapsedTime', elapsedTime);
     if (isRunning.current) {
       const now = Date.now();
       setElapsedTime(elapsedTime + (now - previousTime));
       setPreviousTime(now);
     }
-  }
+  }  
 
   function handlePause() {
-    // toggleIsRunning(isRunning => !isRunning);
     isRunning.current = isRunning.current ? false : true
-    console.log('isRunning', isRunning.current);
-    if (!isRunning.current) {
+    if (isRunning.current) {
       setPreviousTime(Date.now());
-      console.log(previousTime);
     }
   }
   
@@ -84,8 +41,6 @@ const Timer = (props) => {
   secondsText = seconds < 10 ? `0${seconds}` : `${seconds}`;
   minutesText = minutes < 10 ? `0${minutes}` : `${minutes}`;
   hoursText = hours < 10 ? `0${hours}` : `${hours}`;
-
-  console.log('elapsed outside -->', elapsedTime);
 
   return (
     <div>
