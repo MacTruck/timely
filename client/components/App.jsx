@@ -49,7 +49,7 @@ class App extends React.Component {
     //   .catch(console.error);
   }
 
-  handleAddEntry(entryTitle = 'Entry / Client') {
+  handleAddEntry(entryTitle = 'Project / Client') {
     let entrieslength = this.state.entries.length;
     let timestamp = new Date().getTime();
     let newEntry = {

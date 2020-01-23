@@ -103,6 +103,16 @@ h3 {
 .taskHolder {
 	position: relative;
 }
+.buttonHolder {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 4px;
+  margin: 20px;
+  .mainButton {
+    padding: 1em 0;
+    margin: 0;
+  }
+}
 .removeTaskButton {
 	position: absolute;
     font-size: 3em;
@@ -128,13 +138,9 @@ h3 {
 	text-decoration: none;
 	transition: .125s ease all;
 }
-button#pausePlay, button#stopSave {
+#pausePlay, #stopSave {
 	background: #333;
 	letter-spacing: .05em;
-	margin-bottom: 20px;
-}
-button#pause-play:hover, button#stop-save:hover {
-	background: var(--brightOrange);
 }
 #startButton {
 	font-size: 1.5rem;
@@ -155,10 +161,7 @@ button:hover, button#startButton:hover {
 	text-align: center;
 }
 #recordForm {
-	margin: 20px 0;
-	width: 350px;
-	margin-left: auto;
-	margin-right: auto;
+	margin: 20px;
 	font-size: 1.25rem;
 	padding-bottom: 100px}
 textarea {

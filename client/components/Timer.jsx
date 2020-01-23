@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 
 const Timer = (props) => {
 // declare timer hooks
+  let isRunning = useRef(true);
   let [previousTime, setPreviousTime] = useState(new Date(props.entry.timestamp).getTime());
   let [elapsedTime, setElapsedTime] = useState(0);
-  let isRunning = useRef(true);
+  let [pauseButton, setPauseButton] = useState(isRunning.current);
 
 // initiate interval on render
   useEffect(() => {  
@@ -24,10 +25,16 @@ const Timer = (props) => {
   }  
 
   function handlePause() {
-    isRunning.current = isRunning.current ? false : true
+    isRunning.current = !isRunning.current;
+    setPauseButton(isRunning.current);
     if (isRunning.current) {
       setPreviousTime(Date.now());
     }
+  }
+
+  function handleSave() {
+    props.updateEntry(props.newEntry, elapsedTime, 'elapsedTime');
+    props.submitEntry();
   }
   
   let hours = 0, minutes = 0, seconds = 0;
@@ -47,16 +54,23 @@ const Timer = (props) => {
       <div id="timer">
         {`${hoursText}:${minutesText}:${secondsText}`}
       </div>
-      <button 
-        id="pausePlay"
-        className="mainButton"
-        onClick={handlePause}>
-          {isRunning.current ? 'Pause' : 'Continue'}
-      </button>
-      <Link to="/" id="stopSave" className="mainButton" onClick={() => {
-        props.updateEntry(props.newEntry, elapsedTime, "elapsedTime");
-        props.submitEntry();
-      }}>Stop & Save</Link>
+      <div className="buttonHolder">
+        <button 
+          id="pausePlay"
+          className="mainButton"
+          onClick={handlePause}
+        >
+            {pauseButton ? 'Pause' : 'Continue'}
+        </button>
+        <Link 
+          to="/"
+          id="stopSave"
+          className="mainButton"
+          onClick={handleSave}
+        >
+            Stop & Save
+        </Link>
+      </div>
     </div>
   );
 }

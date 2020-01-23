@@ -6,10 +6,6 @@ const path = require('path');
 const PORT = 3000;
 const app = express();
 
-// Connect to DB --------------------------
-// const { MONGO_URI } = require('../config');
-// mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-
 // const connection = mongoose.connection;
 
 // File Handling --------------------------
