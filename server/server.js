@@ -21,6 +21,20 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
+// Routes for signup and login ----------------------
+app.post('/signUp', 
+  userController.hashPassword,
+  userController.createUser,
+  (req, res) => {
+    res.sendStatus(200);
+});
+
+app.post('/login',
+  userController.verifyUser,
+  (req, res) => {
+    res.status(200).json({ userData: res.locals.userData });
+});
+
 // Error Handling ---------------------
 app.use('*', (req, res) => {
   console.log(err);
