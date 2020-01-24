@@ -23,8 +23,7 @@ userController.hashPassword = (req, res, next) => {
 // Create new user
 userController.createUser = (req, res, next) => {
   const { name, email, password } = res.locals.userInfo;
-  console.log(`name: ${name}, email: ${email}, password: ${password}`);
-  User.create({ email, password }, function (err, data) {
+  User.create({ email, password, name }, function (err, data) {
     if (err) {
       console.log(`Error in createUser: ${err}`);
       return next(err);

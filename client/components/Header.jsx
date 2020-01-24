@@ -15,8 +15,7 @@ const Header = (props) => {
           { loginToggle ? 'Back' : 'Login' }
       </div>
       { loginToggle && <LoginScreen
-        handleLogin={props.handleLogin}
-        handleSignup={props.handleSignup}
+        updateState={props.updateState}
       />}
     </header>
   );

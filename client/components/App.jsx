@@ -15,13 +15,14 @@ class App extends React.Component {
     super();
 
     this.state = {
+      email: '',
+      name: '',
       entries: [],
       newEntry: {},
       taskKeyMaker: 0,
     };
   
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleSignup = this.handleSignup.bind(this);
+    this.updateState = this.updateState.bind(this);
     this.handleAddEntry = this.handleAddEntry.bind(this);
     this.handleUpdateEntry = this.handleUpdateEntry.bind(this);
     this.handleRemoveEntry = this.handleRemoveEntry.bind(this);
@@ -31,24 +32,8 @@ class App extends React.Component {
     this.handleRemoveTask = this.handleRemoveTask.bind(this);
   }
 
-  handleLogin(loginData) {
-    fetch('/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ loginData }),
-   }) 
-  }
-
-  handleSignup(signupData) {
-    fetch('/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ signupData })
-    })
+  updateState(data) {
+    this.setState(data, () => console.log('state: ', this.state));
   }
 
   handleRemoveEntry(id) {
@@ -121,8 +106,7 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <Header 
-          handleLogin={this.handleLogin}
-          handleSignup={this.handleSignup}
+          updateState={this.updateState}
         />
         <Switch>
           <Route exact path="/" render={() => 
