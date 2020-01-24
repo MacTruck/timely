@@ -20,7 +20,12 @@ const TimerScreen = (props) => {
             submitEntry={props.actions.submitEntry}
           />
           <form id="recordForm">
-            <input type="text" name="entry" placeholder={props.newEntry.title} onBlur={e => props.updateEntry(props.newEntry, e.target.value, "title")} />
+            <input
+              type="text"
+              name="entry"
+              placeholder={props.newEntry.title}
+              onBlur={e => props.updateEntry(props.newEntry, e.target.value, "title")}
+            />
 
             {props.newEntry.tasks.map((task) =>
               <Task 

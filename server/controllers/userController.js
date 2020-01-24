@@ -1,10 +1,10 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const User = require('../models/userModel.js');
 
 const userController = {};
 
 // Bcrypt password for signup
-userController.bcryptify = (req, res, next) => {
+userController.hashPassword = (req, res, next) => {
   bcrypt.hash(req.body.password, 10, function (err, hash) {
     if (err) {
       console.log(`Error in bcryptify: ${err}`);

@@ -6,7 +6,8 @@ const path = require('path');
 const PORT = 3000;
 const app = express();
 
-// const connection = mongoose.connection;
+// Import Controllers
+const userController = require('./controllers/userController');
 
 // File Handling --------------------------
 app.use('/build', express.static(path.join(__dirname, '../build')));

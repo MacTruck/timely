@@ -21,6 +21,7 @@ class App extends React.Component {
     };
   
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
     this.handleAddEntry = this.handleAddEntry.bind(this);
     this.handleUpdateEntry = this.handleUpdateEntry.bind(this);
     this.handleRemoveEntry = this.handleRemoveEntry.bind(this);
@@ -31,13 +32,23 @@ class App extends React.Component {
   }
 
   handleLogin(loginData) {
-   fetch('/getRecords', {
-     method: 'POST',
-     headers: {
-       'Content-Type': 'application/json'
-     },
-     body: JSON.stringify({loginData}),
+    fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ loginData }),
    }) 
+  }
+
+  handleSignup(signupData) {
+    fetch('/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ signupData })
+    })
   }
 
   handleRemoveEntry(id) {
@@ -110,7 +121,8 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <Header 
-          login={this.handleLogin}
+          handleLogin={this.handleLogin}
+          handleSignup={this.handleSignup}
         />
         <Switch>
           <Route exact path="/" render={() => 

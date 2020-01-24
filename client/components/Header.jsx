@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
+import LoginScreen from './LoginScreen.jsx';
 
-const loginData = {
-  email: 'steve@steve.com',
-  password: 'blankenship',
+const Header = (props) => {
+  const [loginToggle, setLoginToggle] = useState(false);
+
+  return (
+    <header>
+      {/* <img id="icon" src="/images/diamondTriple-fav.png" alt="Dead Simple Icon" /> */}
+      <h1 id="main-title" title="Timely">Timely</h1>
+      <div
+        id="loginButton"
+        onClick={() => setLoginToggle(loginToggle => !loginToggle)}
+        >
+          { loginToggle ? 'Back' : 'Login' }
+      </div>
+      { loginToggle && <LoginScreen
+        handleLogin={props.handleLogin}
+        handleSignup={props.handleSignup}
+      />}
+    </header>
+  );
 }
-
-const Header = (props) => (
-  <header>
-    {/* <img id="icon" src="/images/diamondTriple-fav.png" alt="Dead Simple Icon" /> */}
-    <h1 id="main-title" title="Dead Simple">Timely</h1>
-    <div id="loginButton" href="#header" onClick={() => handleLogin(loginData)}>Login</div>
-  </header>
-);
 
 export default Header;

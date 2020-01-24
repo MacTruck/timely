@@ -122,9 +122,6 @@ h3 {
     line-height: 2.25rem;
     text-shadow: 3px 3px 5px rgba(0,0,0,.125);
 }
-.removeTaskButton:hover {
-	cursor: pointer;
-}
 .mainButton {
 	border: none;
 	border-radius: 3px;
@@ -148,9 +145,6 @@ h3 {
 	letter-spacing: .05em;
 	margin: 5rem auto;
 }
-button:hover, button#startButton:hover {
-	background: var(--brightOrange);
-}
 #timer {
 	font-family: 'Source Sans Pro', sans-serif;
 	font-size: 4rem;
@@ -160,6 +154,18 @@ button:hover, button#startButton:hover {
 	text-shadow: 2px 2px 5px rgba(0,0,0,.25);
 	text-align: center;
 }
+form {
+  display: flex;
+  flex-direction: column;
+}
+#loginForm {
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 75vh;
+  margin-top: 50px;
+  background: var(--offwhite);
+}
 #recordForm {
 	margin: 20px;
 	font-size: 1.25rem;
@@ -167,7 +173,7 @@ button:hover, button#startButton:hover {
 textarea {
 	overflow: hidden;
 }
-textarea, input[type="text"] {
+textarea, input[type="text"], input[type="password"] {
 	background: var(--jungleGreen);
 	color: var(--darkJungle);
 	font-family: 'Soure Sans Pro', sans-serif;
@@ -216,8 +222,8 @@ textarea::after {
 	margin-top: 20px;
 	color: var(--darkJungle);
 }
-#addTaskButton:hover {
-	cursor: pointer;
+button:hover {
+  cursor: pointer;
 }
 ul {
 	list-style-type: none;
