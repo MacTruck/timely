@@ -76,6 +76,7 @@ class App extends React.Component {
       this.state.newEntry
     ];
     this.setState({ entries: updateEntries });
+    
     // Update remote entry in db
     const remoteEntryObject = {
       newEntry: this.state.newEntry,
@@ -88,14 +89,6 @@ class App extends React.Component {
       },
       body: JSON.stringify(remoteEntryObject),
     })
-    // upload the newEntry object into the remote database
-    // then update the entries array in state
-    // this.db
-    //   .collection('entries')
-    //   .insertOne(this.state.newEntry)
-    //   .then(console.log('Successfully loaded new entry'))
-    //   .then(() => this.updateEntries())
-    //   .catch(console.error);
   }
 
   handleAddTask(currentEntry) {

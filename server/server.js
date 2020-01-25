@@ -45,12 +45,13 @@ app.post('/submitEntry',
 
 // Error Handling ---------------------
 app.use('*', (req, res) => {
-  console.log(err);
+  console.log('404 error: ', err);
   res.status(404).send('404 Page Not Found');
 });
 
 app.use((err, req, res, next) => {
-  console.log(err);
+  console.log('global error handler: ', err);
+  console.log('req.body', req.body);
   res.status(500).send('500 Internal Server Error');
 });
 
