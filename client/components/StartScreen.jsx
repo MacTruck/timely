@@ -1,15 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import convertTime from './convertTime.js'
 
 import trashIcon from '../assets/trash.svg';
 
 const EntryItem = (props) => {
+  // convert elapsedTime into string
+  const timeObject = convertTime(props.entry.elapsedTime);
+  const timeString = ` ${timeObject.hours}h ${timeObject.minutes}m ${timeObject.seconds}s`;
+
   return (
     <Link to={`/entries/${props.entry.id}`}>
       <li>
         <img className="deleteEntry" alt="Delete entry" onClick={() => props.removeEntry(props.entry.id)} src={trashIcon} />
         <span className="recordTitle">{props.entry.title}</span><span className="recordTasks">{props.entry.tasks[0].content}</span>
-        <p>{new Date(props.entry.timestamp).toLocaleDateString()}</p>
+        <p>
+          {new Date(props.entry.timestamp).toLocaleDateString()} - {timeString}
+        </p>
       </li>
     </Link>
   );

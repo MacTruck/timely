@@ -76,7 +76,7 @@ class App extends React.Component {
       this.state.newEntry
     ];
     this.setState({ entries: updateEntries });
-    
+
     // Update remote entry in db
     const remoteEntryObject = {
       newEntry: this.state.newEntry,

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-
 import { Link } from 'react-router-dom';
-
+import convertTime from './convertTime.js'
 
 const Timer = (props) => {
 // declare timer hooks
@@ -36,23 +35,18 @@ const Timer = (props) => {
     props.updateEntry(props.newEntry, elapsedTime, 'elapsedTime');
     props.submitEntry();
   }
-  
-  let hours = 0, minutes = 0, seconds = 0;
-  let secondsDiffence, secondsText, minutesText, hoursText;
-  secondsDiffence = Math.floor(elapsedTime / 1000);
 
-  hours = Math.floor(secondsDiffence / 3600);
-  minutes = Math.floor((secondsDiffence - (hours * 3600)) / 60);
-  seconds = Math.floor(secondsDiffence - (hours * 3600) - (minutes * 60));
-
-  secondsText = seconds < 10 ? `0${seconds}` : `${seconds}`;
-  minutesText = minutes < 10 ? `0${minutes}` : `${minutes}`;
-  hoursText = hours < 10 ? `0${hours}` : `${hours}`;
+  const timeObject = convertTime(elapsedTime);
+  let timeString = `
+  ${timeObject.hours < 10 ? '0' + timeObject.hours : timeObject.hours } : 
+  ${timeObject.minutes < 10 ? '0' + timeObject.minutes : timeObject.minutes } :
+  ${timeObject.seconds < 10 ? '0' + timeObject.seconds : timeObject.seconds }
+  `;
 
   return (
     <div>
       <div id="timer">
-        {`${hoursText}:${minutesText}:${secondsText}`}
+        {timeString}
       </div>
       <div className="buttonHolder">
         <button 
