@@ -194,6 +194,13 @@ textarea, input[type="text"], input[type="password"] {
 	display: block;
 	position: relative;
 }
+.error-input {
+  outline: 2px solid red;
+}
+.error-text {
+  font-size: .75rem;
+  color: red;
+}
 textarea:focus, input[type="text"]:focus {
 	color: #333;
 }
