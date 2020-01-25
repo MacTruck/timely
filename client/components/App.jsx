@@ -65,15 +65,19 @@ class App extends React.Component {
   }
 
   handleUpdateEntry(currentEntry, entryData, updateProperty) {
-    console.log('currentEntry: ', currentEntry);
-    console.log('entryData: ', entryData);
-    console.log('updateProperty: ', updateProperty);
     currentEntry[updateProperty] = entryData;
     this.setState({ newEntry: currentEntry });
   }
 
   handleSubmitEntry() {
-    const entryObject = {
+    // Push newEntry into local entries array
+    const updateEntries = [
+      ...this.state.entries,
+      this.state.newEntry
+    ];
+    this.setState({ entries: updateEntries });
+    // Update remote entry in db
+    const remoteEntryObject = {
       newEntry: this.state.newEntry,
       email: this.state.email,
     }
@@ -82,7 +86,7 @@ class App extends React.Component {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(entryObject),
+      body: JSON.stringify(remoteEntryObject),
     })
     // upload the newEntry object into the remote database
     // then update the entries array in state
