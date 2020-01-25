@@ -63,8 +63,8 @@ userController.verifyUser = (req, res, next) => {
 
 // Add entry to db
 userController.addEntry = (req, res, next) => {
-  const { entry, email } = req.body;
-  User.findOneAndUpdate({ email }, {"$push": { entries: entry }}, function (err, data) {
+  const { newEntry, email } = req.body;
+  User.findOneAndUpdate({ email }, {"$push": { entries: newEntry }}, function (err, data) {
     if (err) {
       console.log(`Error in addEntry: ${err}`);
       return next(err);

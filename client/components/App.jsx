@@ -65,13 +65,16 @@ class App extends React.Component {
   }
 
   handleUpdateEntry(currentEntry, entryData, updateProperty) {
+    console.log('currentEntry: ', currentEntry);
+    console.log('entryData: ', entryData);
+    console.log('updateProperty: ', updateProperty);
     currentEntry[updateProperty] = entryData;
     this.setState({ newEntry: currentEntry });
   }
 
   handleSubmitEntry() {
     const entryObject = {
-      entry: this.state.newEntry,
+      newEntry: this.state.newEntry,
       email: this.state.email,
     }
     fetch('/submitEntry', {

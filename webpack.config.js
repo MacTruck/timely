@@ -32,7 +32,14 @@ module.exports = {
           'css-loader',
           'sass-loader',
         ],
-      }
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        loader: 'file-loader',
+        options: {
+          publicPath: 'assets',
+        },
+      },
     ],
   },
 };
