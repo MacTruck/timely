@@ -77,4 +77,10 @@ userController.addEntry = (req, res, next) => {
   })
 }
 
+// Remove entry from db
+userController.removeEntry = (req, res, next) => {
+  const { entryId, email } = req.body;
+
+}
+
 module.exports = userController;

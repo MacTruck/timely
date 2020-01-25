@@ -43,6 +43,12 @@ app.post('/submitEntry',
     res.sendStatus(200);
 });
 
+app.post('/removeEntry',
+  userController.removeEntry,
+  (req, res) => {
+    res.sendStatus(200)
+});
+
 // Error Handling ---------------------
 app.use('*', (req, res) => {
   console.log('404 error: ', err);

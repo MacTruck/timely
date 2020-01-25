@@ -33,7 +33,7 @@ class App extends React.Component {
   }
 
   updateState(data) {
-    this.setState(data, () => console.log('state: ', this.state));
+    this.setState(data);
   }
 
   handleAddEntry(entryTitle = 'Project / Client') {
@@ -55,29 +55,15 @@ class App extends React.Component {
     this.setState({ newEntry });
   }
 
-  handleRemoveEntry(id) {
-    // this.db
-    //   .collection('entries')
-    //   .deleteOne({ id })
-    //   .then(console.log('Successfully deleted entry'))
-    //   .then(() => this.updateEntries())
-    //   .catch(console.error);
-  }
-
-  handleUpdateEntry(currentEntry, entryData, updateProperty) {
-    currentEntry[updateProperty] = entryData;
-    this.setState({ newEntry: currentEntry });
-  }
-
   handleSubmitEntry() {
-    // Push newEntry into local entries array
-    const updateEntries = [
+    // LOCAL: Push newEntry into local entries array
+    const updatedEntries = [
       ...this.state.entries,
       this.state.newEntry
     ];
-    this.setState({ entries: updateEntries });
+    this.setState({ entries: updatedEntries });
 
-    // Update remote entry in db
+    // REMOTE: Update remote entry in db
     const remoteEntryObject = {
       newEntry: this.state.newEntry,
       email: this.state.email,
@@ -89,6 +75,37 @@ class App extends React.Component {
       },
       body: JSON.stringify(remoteEntryObject),
     })
+  }
+
+  handleRemoveEntry(id) {
+    console.log('within handleRemoveEntry - id: ', id);
+    // LOCAL: Splice entry from local entries array
+    const updatedEntries = this.state.entries.filter(entry => entry.id != id);
+    this.setState({ entries: updatedEntries });
+
+    // REMOTE: Drop entry
+    // fetch('/removeEntry', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({ entryId: id })
+    // })
+    //   .then(response => response.json())
+    //   .then(data => console.log('data from handleRemoveEntry: ', data))
+    //   .catch(err => console.log('Error in handleRemoveEntry: ', err));
+    // ----------------------------- old
+    // this.db
+    //   .collection('entries')
+    //   .deleteOne({ id })
+    //   .then(console.log('Successfully deleted entry'))
+    //   .then(() => this.updateEntries())
+    //   .catch(console.error);
+  }
+
+  handleUpdateEntry(currentEntry, entryData, updateProperty) {
+    currentEntry[updateProperty] = entryData;
+    this.setState({ newEntry: currentEntry });
   }
 
   handleAddTask(currentEntry) {

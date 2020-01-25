@@ -10,7 +10,7 @@ const EntryItem = (props) => {
   const timeString = ` ${timeObject.hours}h ${timeObject.minutes}m ${timeObject.seconds}s`;
 
   return (
-    <Link to={`/entries/${props.entry.id}`}>
+    // <Link to={`/entries/${props.entry.id}`}>
       <li>
         <img className="deleteEntry" alt="Delete entry" onClick={() => props.removeEntry(props.entry.id)} src={trashIcon} />
         <span className="recordTitle">{props.entry.title}</span><span className="recordTasks">{props.entry.tasks[0].content}</span>
@@ -18,7 +18,7 @@ const EntryItem = (props) => {
           {new Date(props.entry.timestamp).toLocaleDateString()} - {timeString}
         </p>
       </li>
-    </Link>
+    // </Link>
   );
 }
 
