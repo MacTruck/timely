@@ -84,16 +84,20 @@ class App extends React.Component {
     this.setState({ entries: updatedEntries });
 
     // REMOTE: Drop entry
-    // fetch('/removeEntry', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({ entryId: id })
-    // })
-    //   .then(response => response.json())
-    //   .then(data => console.log('data from handleRemoveEntry: ', data))
-    //   .catch(err => console.log('Error in handleRemoveEntry: ', err));
+    const remoteRemoveEntryObject = {
+      entryId: id,
+      email: this.state.email,
+    }
+    fetch('/removeEntry', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(remoteRemoveEntryObject)
+    })
+      .then(response => response.json())
+      .then(data => console.log('data from handleRemoveEntry: ', data))
+      .catch(err => console.log('Error in handleRemoveEntry: ', err));
     // ----------------------------- old
     // this.db
     //   .collection('entries')

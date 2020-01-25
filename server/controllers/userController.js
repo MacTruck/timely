@@ -69,10 +69,10 @@ userController.addEntry = (req, res, next) => {
       console.log(`Error in addEntry: ${err}`);
       return next(err);
     } else if (data === null) {
-      console.log(`Error in addEntry: User not found`);
+      console.log(`Error in addEntry: User ${email} not found`);
       return next();
     } else {
-      console.log('Entry added successfully');
+      console.log('Entry added from db successfully');
     }
   })
 }
@@ -80,7 +80,17 @@ userController.addEntry = (req, res, next) => {
 // Remove entry from db
 userController.removeEntry = (req, res, next) => {
   const { entryId, email } = req.body;
-
+  User.findOneAndUpdate({ email }, {"$pull": { 'entries': { id: entryId } } }, function (err, data) {
+    if (err) {
+      console.log(`Error in removeEntry: ${err}`);
+      return next(err);
+    } else if (data === null) {
+      console.log(`Error in removeEntry: User ${email} not found`);
+      return next();
+    } else {
+      console.log('Entry removed from db successfully');
+    }
+  })
 }
 
 module.exports = userController;
