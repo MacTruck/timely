@@ -34,11 +34,10 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
-        loader: 'file-loader',
-        options: {
-          publicPath: 'assets',
-        },
+        test: /\.(png|svg|jp?g|gif)$/,
+        use: {
+          loader: 'url-loader',
+        }
       },
     ],
   },

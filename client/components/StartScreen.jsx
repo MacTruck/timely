@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import trashIcon from '../assets/trash.svg';
+
 const EntryItem = (props) => (
   <Link to={`/entries/${props.entry.id}`}>
     <li>
-      <img className="deleteEntry" alt="Delete entry" onClick={() => props.removeEntry(props.entry.id)} src="assets/trash.svg" />
+      <img className="deleteEntry" alt="Delete entry" onClick={() => props.removeEntry(props.entry.id)} src={trashIcon} />
       <span className="recordTitle">{props.entry.title}</span><span className="recordTasks">{props.entry.tasks[0].content}</span>
       <p>{new Date(props.entry.timestamp).toLocaleDateString()}</p>
     </li>
