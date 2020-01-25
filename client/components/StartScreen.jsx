@@ -1,13 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import convertTime from './convertTime.js'
+import convertTime from './convertTime.js';
+
+// import WarningScreen from './WarningScreen.jsx';
 
 import trashIcon from '../assets/trash.svg';
+import WarningScreen from './WarningScreen.jsx';
 
 const EntryItem = (props) => {
   // convert elapsedTime into string
   const timeObject = convertTime(props.entry.elapsedTime);
   const timeString = ` ${timeObject.hours}h ${timeObject.minutes}m ${timeObject.seconds}s`;
+
+  // function confirmDeletion(entryId) {}
 
   return (
     // <Link to={`/entries/${props.entry.id}`}>

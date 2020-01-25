@@ -14,7 +14,8 @@
 		--jungleGreen: #aee16c;
 		--mediumJungle: #86CA65;
 		--darkJungle: #0f8c01;
-		--gray: #4d4d4d;
+    --gray: #4d4d4d;
+  --red: #e23610;
 
 	--purple: #9639c4;
 	--purple2: #5d0074;
@@ -115,12 +116,22 @@ h3 {
 }
 .removeTaskButton {
 	position: absolute;
-    font-size: 3em;
-    color: var(--offwhite);
-    top: 0;
-    right: 5px;
-    line-height: 2.25rem;
-    text-shadow: 3px 3px 5px rgba(0,0,0,.125);
+  font-size: 3em;
+  color: var(--offwhite);
+  top: 0;
+  right: 5px;
+  line-height: 2.25rem;
+  text-shadow: 3px 3px 5px rgba(0,0,0,.125);
+}
+.warningScreen {
+  position: absolute;
+  top: 0;
+  background: var(--jungleGreen);
+  // color: white;
+  width: 100%;
+  padding: 20px;
+  border-radius: 3px 3px 0 0;
+  box-shadow: 0 0 10px rgba(0,0,0,.5);
 }
 .mainButton {
 	border: none;

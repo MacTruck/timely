@@ -98,13 +98,6 @@ class App extends React.Component {
       .then(response => response.json())
       .then(data => console.log('data from handleRemoveEntry: ', data))
       .catch(err => console.log('Error in handleRemoveEntry: ', err));
-    // ----------------------------- old
-    // this.db
-    //   .collection('entries')
-    //   .deleteOne({ id })
-    //   .then(console.log('Successfully deleted entry'))
-    //   .then(() => this.updateEntries())
-    //   .catch(console.error);
   }
 
   handleUpdateEntry(currentEntry, entryData, updateProperty) {
