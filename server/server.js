@@ -36,6 +36,13 @@ app.post('/login',
     res.status(200).json({ userData: res.locals.userData });
 });
 
+// Routes for entry submit and update
+app.post('/submitEntry',
+  userController.addEntry,
+  (req, res) => {
+    res.sendStatus(200);
+});
+
 // Error Handling ---------------------
 app.use('*', (req, res) => {
   console.log(err);

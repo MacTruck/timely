@@ -8,8 +8,40 @@ const initialState = {
 }
 
 const LoginScreen = (props) => {
-  const { handleLogin, handleSignup, handleChange, handleBlur, values, errors, isSubmitting } = useFormValidation(initialState)
   const [signupToggle, setSignupToggle] = useState(false);
+  const { handleChange, handleBlur, values, errors, isSubmitting } = useFormValidation(initialState)
+
+  function handleLogin() {
+    // Fetch Login Info
+    if (Object.keys(errors).length === 0) {
+      fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values),
+      })
+        .then(response => response.json())
+        .then(data => {
+          props.updateState(data.userData);
+          props.setLoginToggle(false);
+        })
+        .catch(err => console.log('Error in handleLogin: ', err));
+    }
+  }
+
+  function handleSignup() {
+    // Fetch Signup Route
+    if (Object.keys(errors).length === 0) {
+      fetch('/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+      })
+    }
+  }
 
   const loginButton = (
     <button

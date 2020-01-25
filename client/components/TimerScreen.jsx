@@ -5,8 +5,8 @@ import Timer from './Timer.jsx';
 const Task = (props) => {
   return (
     <div className="taskHolder">
-      <textarea rows="1" placeholder={props.task || 'Task'} onBlur={e => props.actions.updateTask(props.entry, e.target.value, props.taskId)} ></textarea>
-      <div className="removeTaskButton" onClick={() => props.actions.removeTask(props.entry, props.taskId)}>-</div>
+      <textarea rows="1" placeholder={props.task || 'Task'} onBlur={e => props.updateTask(props.entry, e.target.value, props.taskId)} ></textarea>
+      <div className="removeTaskButton" onClick={() => props.removeTask(props.entry, props.taskId)}>-</div>
     </div>
   )
 }
@@ -24,7 +24,7 @@ const TimerScreen = (props) => {
               type="text"
               name="entry"
               placeholder={props.newEntry.title}
-              onBlur={e => props.updateEntry(props.newEntry, e.target.value, "title")}
+              onBlur={e => props.actions.updateEntry(props.newEntry, e.target.value, "title")}
             />
 
             {props.newEntry.tasks.map((task) =>
@@ -38,7 +38,7 @@ const TimerScreen = (props) => {
               />
             )}
 
-            <div id="addTaskButton" onClick={() => props.addTask(props.newEntry)}>+</div>
+            <div id="addTaskButton" onClick={() => props.actions.addTask(props.newEntry)}>+</div>
           </form>
         </div>
   );

@@ -29,41 +29,6 @@ const useFormValidation = (initialState) => {
     setErrors(validationErrors);
   }
 
-  function handleLogin() {
-    const validationErrors = validate(values);
-    setErrors(validationErrors);
-    // Fetch Login Info
-    if (Object.keys(validationErrors).length === 0) {
-      fetch('/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(values),
-      })
-        .then(response => response.json())
-        .then(data => {
-          props.updateState(data.userData);
-        })
-        .catch(err => console.log('Error in handleLogin: ', err));
-    }
-  }
-
-  function handleSignup(e) {
-    const validationErrors = validate(values);
-    setErrors(validationErrors);
-    // Fetch Signup Route
-    if (Object.keys(validationErrors).length === 0) {
-      fetch('/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(values)
-      })
-    }
-  }
-
   function validate(testValues) {
     let errors = {};
 
@@ -84,9 +49,7 @@ const useFormValidation = (initialState) => {
     return errors;
   }
 
-  
-
-  return { handleLogin, handleSignup, handleChange, handleBlur, values, errors, isSubmitting }
+  return { handleChange, handleBlur, values, errors, isSubmitting }
 }
 
 export default useFormValidation;

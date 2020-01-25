@@ -36,15 +36,6 @@ class App extends React.Component {
     this.setState(data, () => console.log('state: ', this.state));
   }
 
-  handleRemoveEntry(id) {
-    // this.db
-    //   .collection('entries')
-    //   .deleteOne({ id })
-    //   .then(console.log('Successfully deleted entry'))
-    //   .then(() => this.updateEntries())
-    //   .catch(console.error);
-  }
-
   handleAddEntry(entryTitle = 'Project / Client') {
     let entrieslength = this.state.entries.length;
     let timestamp = new Date().getTime();
@@ -64,12 +55,32 @@ class App extends React.Component {
     this.setState({ newEntry });
   }
 
+  handleRemoveEntry(id) {
+    // this.db
+    //   .collection('entries')
+    //   .deleteOne({ id })
+    //   .then(console.log('Successfully deleted entry'))
+    //   .then(() => this.updateEntries())
+    //   .catch(console.error);
+  }
+
   handleUpdateEntry(currentEntry, entryData, updateProperty) {
     currentEntry[updateProperty] = entryData;
     this.setState({ newEntry: currentEntry });
   }
 
   handleSubmitEntry() {
+    const entryObject = {
+      entry: this.state.newEntry,
+      email: this.state.email,
+    }
+    fetch('/submitEntry', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(entryObject),
+    })
     // upload the newEntry object into the remote database
     // then update the entries array in state
     // this.db
@@ -107,6 +118,7 @@ class App extends React.Component {
       <BrowserRouter>
         <Header 
           updateState={this.updateState}
+          name={this.state.name}
         />
         <Switch>
           <Route exact path="/" render={() => 
