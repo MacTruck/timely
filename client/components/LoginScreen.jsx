@@ -28,8 +28,7 @@ const LoginScreen = (props) => {
       })
         .then(response => response.json())
         .then(data => {
-          console.log('data from login fetch', data);
-          // props.updateState(data.userData);
+          props.updateState(data.userData);
           props.setLoginToggle(false);
         })
         .catch(err => console.log('Error in handleLogin: ', err));

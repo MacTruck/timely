@@ -16,7 +16,6 @@ class App extends React.Component {
 
     this.state = {
       _id: null,
-      email: '',
       username: '',
       entries: [],
       newEntry: {},

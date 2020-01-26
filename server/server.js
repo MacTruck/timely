@@ -36,7 +36,12 @@ app.post('/login',
   dbController.getUserData,
   // userController.addEntriesOnLogin,
   (req, res) => {
-    res.status(200).json({ userData: res.locals.userData });
+    const userData = {
+      _id: res.locals._id,
+      username: res.locals.username,
+      entries: res.locals.entries,
+    }
+    res.status(200).json({ userData });
 });
 
 // Routes for entry submit and update

@@ -45,15 +45,25 @@ dbController.verifyUser = (req, res, next) => {
   const { email, password } = req.body;
 
   let queryString = `
-    SELECT "password", "_id" FROM "users"
+    SELECT "password", "_id", "username" FROM "users"
     WHERE "email" = '${email}' 
   `;
 
   db.query(queryString)
     .then(data => {
-      console.log('data from verifyUser query: ', data.rows[0]);
-      res.locals.email = email;
-      return next();
+      bcrypt.compare(password, data.rows[0].password, function (err, compareResults) {
+        if (err) {
+          console.log(`Error in verifyUser.compare: ${err}`);
+          return next(err);
+        } else if (!compareResults) {
+          console.log(`No compareResults in verifyUser!!!`);
+          res.next('ERROR');
+        } else {
+          res.locals._id = data.rows[0]._id;
+          res.locals.username = data.rows[0].username;
+          return next();
+        }
+      });
     })
     .catch(err => {
       console.log(`Error in dbController.verifyUser: ${err}`);
@@ -69,15 +79,14 @@ dbController.getUserData = (req, res, next) => {
     JOIN "tasks" ON "tasks"."entry_id" = "entries"."_id"
     JOIN "projects" ON "projects"."_id" = "entries"."project_id"
     JOIN "users" ON "projects"."user_id" = "users"."_id"
-    WHERE "users"."email" = '${res.locals.email}'
+    WHERE "users"."_id" = ${res.locals._id}
     GROUP BY "entries"."_id"
   `;
-
   
   db.query(queryString)
     .then(data => {
       console.log('data.rows from getUserData', data.rows);
-      res.locals.userData.entries = data.rows;
+      res.locals.entries = data.rows;
       return next();
     })
     .catch(err => {
