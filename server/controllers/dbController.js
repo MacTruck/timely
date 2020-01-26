@@ -74,13 +74,13 @@ dbController.verifyUser = (req, res, next) => {
 // data middleware
 dbController.getUserData = (req, res, next) => {
   let queryString = `
-    SELECT "entries"."_id" AS "entry_id", "project_id", "entries"."timestamp" AS "entry_timestamp", "elapsedTime", json_agg(json_build_object('task_id', "tasks"."_id", 'task_content', "content", 'task_timestamp', "tasks"."timestamp")) as "tasks"
+    SELECT "entries"."_id" AS "entry_id", "projects"."_id" AS "project_id", "projects"."projectName", "entries"."timestamp" AS "entry_timestamp", "elapsedTime", json_agg(json_build_object('task_id', "tasks"."_id", 'task_content', "content", 'task_timestamp', "tasks"."timestamp")) AS "tasks"
     FROM "entries"
     JOIN "tasks" ON "tasks"."entry_id" = "entries"."_id"
     JOIN "projects" ON "projects"."_id" = "entries"."project_id"
     JOIN "users" ON "projects"."user_id" = "users"."_id"
     WHERE "users"."_id" = ${res.locals._id}
-    GROUP BY "entries"."_id"
+    GROUP BY "entries"."_id", "projects"."_id"
   `;
   
   db.query(queryString)
