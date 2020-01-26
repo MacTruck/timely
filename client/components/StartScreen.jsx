@@ -35,7 +35,9 @@ const RecentEntries = (props) => {
         {props.entries
           .sort((a, b) => a.timestamp > b.timestamp ? -1 : 1)
           .map(entry =>
-            <EntryItem entry={entry}
+            <EntryItem
+              key={entry.key} 
+              entry={entry}
               removeEntry={props.removeEntry} />
           )}
       </React.Fragment>

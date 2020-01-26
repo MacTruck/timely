@@ -32,6 +32,7 @@ app.post('/signUp',
 
 app.post('/login',
   userController.verifyUser,
+  userController.addEntriesOnLogin,
   (req, res) => {
     res.status(200).json({ userData: res.locals.userData });
 });

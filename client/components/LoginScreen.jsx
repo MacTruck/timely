@@ -14,12 +14,17 @@ const LoginScreen = (props) => {
   function handleLogin() {
     // Fetch Login Info
     if (Object.keys(errors).length === 0) {
+      const loginValues = {...values};
+      if (props.entries.length) {
+        loginValues.newEntries = [...props.entries];
+        console.log('Adding newEntries to loginValues', loginValues);
+      }
       fetch('/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify(loginValues),
       })
         .then(response => response.json())
         .then(data => {

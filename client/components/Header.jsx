@@ -31,6 +31,7 @@ const Header = (props) => {
         <LoginScreen
           updateState={props.updateState}
           setLoginToggle={setLoginToggle}
+          entries={props.entries}
         />
       }
     </header>

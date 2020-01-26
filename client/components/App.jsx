@@ -133,6 +133,7 @@ class App extends React.Component {
         <Header 
           updateState={this.updateState}
           name={this.state.name}
+          entries={this.state.entries}
         />
         <Switch>
           <Route exact path="/" render={() => 

@@ -61,6 +61,25 @@ userController.verifyUser = (req, res, next) => {
   });
 }
 
+userController.addEntriesOnLogin = (req, res, next) => {
+  if (req.body.newEntries) {
+    const { email, newEntries } = req.body;
+    User.findOneAndUpdate({ email }, {"$push": { entries: {"$each": newEntries }}}, function (err, data) {
+      if (err) {
+        console.log(`Error in addEntriesOnLogin: ${err}`);
+        return next(err);
+      } else if (data === null) {
+        console.log(`Error in addEntriesOnLogin: User ${email} not found`);
+        return next();
+      } else {
+        console.log('Entry added from db successfully');
+      }
+    })
+  } else {
+    return next();
+  }
+}
+
 // Add entry to db
 userController.addEntry = (req, res, next) => {
   const { newEntry, email } = req.body;
