@@ -8,6 +8,7 @@ const app = express();
 
 // Import Controllers
 const userController = require('./controllers/userController');
+const dbController = require('./controllers/dbController.js');
 
 // File Handling --------------------------
 app.use('/build', express.static(path.join(__dirname, '../build')));
@@ -24,8 +25,8 @@ app.get('/', (req, res) => {
 
 // Routes for signup and login ----------------------
 app.post('/signUp', 
-  userController.hashPassword,
-  userController.createUser,
+  dbController.hashPassword,
+  dbController.createUser,
   (req, res) => {
     res.sendStatus(200);
 });
