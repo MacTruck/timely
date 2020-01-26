@@ -18,7 +18,7 @@ const Header = (props) => {
     <div
       className="headerButton"
     >
-      {props.name}
+      {props.username}
     </div>
   )
 
@@ -26,7 +26,7 @@ const Header = (props) => {
     <header>
       {/* <img id="icon" src="/images/diamondTriple-fav.png" alt="Dead Simple Icon" /> */}
       <h1 id="main-title" title="Timely">Timely</h1>
-      { props.name ? profileButton : loginButton }
+      { props.username ? profileButton : loginButton }
       { loginToggle && 
         <LoginScreen
           updateState={props.updateState}

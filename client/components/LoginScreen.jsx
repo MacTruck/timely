@@ -4,7 +4,7 @@ import useFormValidation from './useFormValidation.jsx';
 const initialState = {
   email: '',
   password: '',
-  name: '',
+  username: '',
 }
 
 const LoginScreen = (props) => {
@@ -72,9 +72,9 @@ const LoginScreen = (props) => {
     <form id="loginForm">
       { signupToggle && <input
         type="text"
-        name="name"
-        value={values.name}
-        placeholder="Name"
+        name="username"
+        value={values.username}
+        placeholder="username"
         onChange={handleChange}
         autoComplete="off"
       /> }

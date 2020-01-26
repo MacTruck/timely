@@ -16,7 +16,7 @@ class App extends React.Component {
 
     this.state = {
       email: '',
-      name: '',
+      username: '',
       entries: [],
       newEntry: {},
       taskKeyMaker: 0,
@@ -132,7 +132,7 @@ class App extends React.Component {
       <BrowserRouter>
         <Header 
           updateState={this.updateState}
-          name={this.state.name}
+          username={this.state.username}
           entries={this.state.entries}
         />
         <Switch>
