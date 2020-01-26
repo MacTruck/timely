@@ -43,7 +43,7 @@ const useFormValidation = (initialState) => {
     if (!testValues.password) {
       errors.password = 'Password Required';
     } else if (testValues.password.length < 7) {
-      errors.password = 'Password must be at least 6 characters'
+      errors.password = 'Password must be at least 7 characters'
     }
 
     return errors;

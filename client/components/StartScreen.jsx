@@ -17,7 +17,7 @@ const EntryItem = (props) => {
   return (
     // <Link to={`/entries/${props.entry.id}`}>
       <li>
-        <img className="deleteEntry" alt="Delete entry" onClick={() => props.removeEntry(props.entry.id)} src={trashIcon} />
+        <img className="deleteEntry" alt="Delete entry" onClick={() => props.removeEntry(props.entry._id)} src={trashIcon} />
         <span className="recordTitle">{props.entry.title}</span><span className="recordTasks">{props.entry.tasks[0].content}</span>
         <p>
           {new Date(props.entry.timestamp).toLocaleDateString()} - {timeString}

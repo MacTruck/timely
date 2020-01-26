@@ -15,6 +15,7 @@ class App extends React.Component {
     super();
 
     this.state = {
+      _id: null,
       email: '',
       username: '',
       entries: [],
@@ -33,24 +34,22 @@ class App extends React.Component {
   }
 
   updateState(data) {
-    this.setState(data);
+    this.setState(data, () => console.log('this.state: ', this.state));
   }
 
-  handleAddEntry(entryTitle = 'Project / Client') {
-    let entrieslength = this.state.entries.length;
-    let timestamp = new Date().getTime();
+  handleAddEntry(entryProject = 'Project / Client') {
+    let entrieslength = `temp_${this.state.entries.length}`;
     let newEntry = {
-      key: entrieslength,
-      id: entrieslength,
-      title: entryTitle,
+      _id: entrieslength,
+      projectName: entryProject,
       tasks: [
         {
-          key: this.state.taskKeyMaker += 1,
+          key: `temp_${this.state.taskKeyMaker += 1}`,
           content: ''
         }
       ],
-      timestamp: timestamp,
-      elapsedTime: null
+      timestamp: new Date().getTime(),
+      elapsedTime: null,
     }
     this.setState({ newEntry });
   }
@@ -80,7 +79,7 @@ class App extends React.Component {
   handleRemoveEntry(id) {
     console.log('within handleRemoveEntry - id: ', id);
     // LOCAL: Splice entry from local entries array
-    const updatedEntries = this.state.entries.filter(entry => entry.id != id);
+    const updatedEntries = this.state.entries.filter(entry => entry._id != id);
     this.setState({ entries: updatedEntries });
 
     // REMOTE: Drop entry

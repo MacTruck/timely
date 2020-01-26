@@ -28,12 +28,13 @@ app.post('/signUp',
   dbController.hashPassword,
   dbController.createUser,
   (req, res) => {
-    res.sendStatus(200);
+    res.status(200).json({ userData: res.locals.userData });
 });
 
 app.post('/login',
-  userController.verifyUser,
-  userController.addEntriesOnLogin,
+  dbController.verifyUser,
+  dbController.getUserData,
+  // userController.addEntriesOnLogin,
   (req, res) => {
     res.status(200).json({ userData: res.locals.userData });
 });
@@ -48,7 +49,7 @@ app.post('/submitEntry',
 app.post('/removeEntry',
   userController.removeEntry,
   (req, res) => {
-    res.sendStatus(200)
+    res.sendStatus(200);
 });
 
 // Error Handling ---------------------
@@ -59,8 +60,11 @@ app.use('*', (req, res) => {
 
 app.use((err, req, res, next) => {
   console.log('global error handler: ', err);
-  console.log('req.body', req.body);
-  res.status(500).send('500 Internal Server Error');
+  if (res.locals.errors) {
+    res.status(500).json({ errors: res.locals.errors });
+  } else {
+    res.status(500).send('500 Internal Server Error');
+  }
 });
 
 // Start Server ---------------------------

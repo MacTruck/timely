@@ -28,7 +28,8 @@ const LoginScreen = (props) => {
       })
         .then(response => response.json())
         .then(data => {
-          props.updateState(data.userData);
+          console.log('data from login fetch', data);
+          // props.updateState(data.userData);
           props.setLoginToggle(false);
         })
         .catch(err => console.log('Error in handleLogin: ', err));
@@ -45,6 +46,12 @@ const LoginScreen = (props) => {
         },
         body: JSON.stringify(values)
       })
+        .then(response => response.json())
+        .then(data => {
+          props.updateState(data.userData);
+          props.setLoginToggle(false);
+        })
+        .catch(err => console.log('Error in handleSignup: ', err));
     }
   }
 
