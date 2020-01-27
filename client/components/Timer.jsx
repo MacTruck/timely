@@ -5,7 +5,7 @@ import convertTime from './convertTime.js'
 const Timer = (props) => {
   // declare timer hooks
   let isRunning = useRef(true);
-  let [previousTime, setPreviousTime] = useState(new Date(props.newEntry.timestamp).getTime());
+  let [previousTime, setPreviousTime] = useState(new Date(props.newEntry.entry_timestamp).getTime());
   let [elapsedTime, setElapsedTime] = useState(0);
   let [pauseButton, setPauseButton] = useState(isRunning.current);
 

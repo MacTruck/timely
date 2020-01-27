@@ -47,7 +47,7 @@ const LoginScreen = (props) => {
       })
         .then(response => response.json())
         .then(data => {
-          props.updateState(data.userData);
+          props.updateState({ user_id: data.user_id });
           props.setLoginToggle(false);
         })
         .catch(err => console.log('Error in handleSignup: ', err));

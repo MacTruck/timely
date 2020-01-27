@@ -31,7 +31,7 @@ dbController.createUser = (req, res, next) => {
 
   db.query(queryString)
     .then(data => {
-      res.locals.userData = data.rows[0];
+      res.locals.user_id = data.rows[0]._id;
       return next();
     })
     .catch(err => {
@@ -59,7 +59,7 @@ dbController.verifyUser = (req, res, next) => {
           console.log(`No compareResults in verifyUser!!!`);
           res.next('ERROR');
         } else {
-          res.locals._id = data.rows[0]._id;
+          res.locals.user_id = data.rows[0]._id;
           res.locals.username = data.rows[0].username;
           return next();
         }
@@ -79,7 +79,7 @@ dbController.getUserData = (req, res, next) => {
     JOIN "tasks" ON "tasks"."entry_id" = "entries"."_id"
     JOIN "projects" ON "projects"."_id" = "entries"."project_id"
     JOIN "users" ON "projects"."user_id" = "users"."_id"
-    WHERE "users"."_id" = ${res.locals._id}
+    WHERE "users"."_id" = ${res.locals.user_id}
     GROUP BY "entries"."_id", "projects"."_id"
   `;
   
@@ -95,12 +95,67 @@ dbController.getUserData = (req, res, next) => {
     })
 }
 
-dbController.addEntry = (req, res, next) => {
-  let queryString = '';
+dbController.addProjects = (req, res, next) => {
+  const { newEntry } = req.body;
+  res.locals.user_id = req.body.user_id;
+  if (!newEntry.project_id) {
+    let queryString = `
+    INSERT INTO "projects" ("user_id", "projectName")
+    VALUES ((SELECT "_id" FROM "users" WHERE "_id" = ${req.body.user_id}), '${newEntry.projectName}')
+    RETURNING "_id"
+    `;
+
+    db.query(queryString)
+      .then(data => {
+        res.locals.project_id = data.rows[0]._id;
+        return next();
+      })
+      .catch(err => {
+        console.log('Error in dbController.addProjects: ', err);
+        return next(err);
+      })
+  } else {
+    return next();
+  }
 }
 
-dbController.getEntries = (req, res, next) => {
-  let queryString = '';
+dbController.addEntries = (req, res, next) => {
+  const { newEntry } = req.body;
+  let queryString = `
+    INSERT INTO "entries" ("project_id", "timestamp", "elapsedTime")
+    VALUES ((SELECT "_id" FROM "projects" WHERE "_id" = ${res.locals.project_id}), ${newEntry.entry_timestamp}, ${newEntry.elapsedTime})
+    RETURNING "_id"
+  `;
+
+  db.query(queryString)
+    .then(data => {
+      res.locals.entry_id = data.rows[0]._id;
+      return next();
+    })
+    .catch(err => {
+      console.log('Error in dbController.addEntries: ', err);
+      return next(err);
+    })
+}
+
+dbController.addTasks = (req, res, next) => {
+  const { newEntry } = req.body;
+  let queryString = ``;
+  newEntry.tasks.forEach(task => {
+    queryString += `
+      INSERT INTO "tasks" ("entry_id", "content", "timestamp")
+      VALUES ((SELECT "_id" FROM "entries" WHERE "_id" = ${res.locals.entry_id}), '${task.task_content}', ${task.task_timestamp});
+    `;
+  })
+
+  db.query(queryString)
+    .then(data => {
+      return next();
+    })
+    .catch(err => {
+      console.log('Error in dbController.addTasks: ', err);
+      return next(err);
+    })
 }
 
 dbController.updateEntry = (req, res, next) => {
@@ -110,37 +165,5 @@ dbController.updateEntry = (req, res, next) => {
 dbController.deleteEntry = (req, res, next) => {
   let queryString = '';
 }
-
-// insert user
-// `INSERT INTO users(username, email, password)
-//   VALUES(
-//     'bubba',
-//     'bubba@gump.com',
-//     'gump');
-// `
-
-// insert project
-// `INSERT INTO projects(user_id, "projectName", color)
-//   VALUES(
-//     (select _id from users where username = 'bubba'),
-//     'Banana Hut',
-//     'red');
-// `
-
-// insert entry
-// `INSERT INTO entries("project_id", timestamp, "elapsedTime")
-//   VALUES(
-//     (select _id from projects where _id = 1),
-//     895965672,
-//     4809);
-// `
-
-// insert task
-// `INSERT INTO tasks(entry_id, content, timestamp)
-//   VALUES(
-//     (select _id from entries where _id = 1),
-//     'Mutated the array',
-//     92829801);
-// `
 
 module.exports = dbController;

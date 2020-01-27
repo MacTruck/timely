@@ -15,15 +15,13 @@ class App extends React.Component {
     super();
 
     this.state = {
-      _id: null,
+      user_id: null,
       username: '',
       entries: [],
       newEntry: {},
-      taskKeyMaker: 0,
     };
   
     this.updateState = this.updateState.bind(this);
-    this.handleAddEntry = this.handleAddEntry.bind(this);
     this.handleUpdateEntry = this.handleUpdateEntry.bind(this);
     this.handleRemoveEntry = this.handleRemoveEntry.bind(this);
     this.handleAddTask = this.handleAddTask.bind(this);
@@ -36,23 +34,6 @@ class App extends React.Component {
     this.setState(data, () => console.log('this.state: ', this.state));
   }
 
-  handleAddEntry(entryProject = 'Project / Client') {
-    let entrieslength = `temp_${this.state.entries.length}`;
-    let newEntry = {
-      _id: entrieslength,
-      projectName: entryProject,
-      tasks: [
-        {
-          key: `temp_${this.state.taskKeyMaker += 1}`,
-          content: ''
-        }
-      ],
-      timestamp: new Date().getTime(),
-      elapsedTime: null,
-    }
-    this.setState({ newEntry });
-  }
-
   handleSubmitEntry() {
     // LOCAL: Push newEntry into local entries array
     const updatedEntries = [
@@ -62,17 +43,26 @@ class App extends React.Component {
     this.setState({ entries: updatedEntries });
 
     // REMOTE: Update remote entry in db
-    const remoteEntryObject = {
-      newEntry: this.state.newEntry,
-      email: this.state.email,
+    if (this.state.user_id) {
+      const remoteEntryObject = {
+        newEntry: this.state.newEntry,
+        user_id: this.state.user_id,
+      }
+      fetch('/submitEntry', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(remoteEntryObject),
+      })
+        .then(response => response.json())
+        .then(data => {
+          this.setState({entries: data.entries}, () => console.log('this.state: ', this.state));
+        })
+        .catch(err => {
+          console.log('Error in handleSubmitEntry: ', err);
+        })
     }
-    fetch('/submitEntry', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(remoteEntryObject),
-    })
   }
 
   handleRemoveEntry(id) {
@@ -105,13 +95,13 @@ class App extends React.Component {
 
   handleAddTask(currentEntry) {
     if (currentEntry.tasks[(currentEntry.tasks.length - 1)].content !== '') {
-      currentEntry.tasks.push({ key: this.state.taskKeyMaker += 1, content: '' });
+      currentEntry.tasks.push({ task_id: currentEntry.tasks.length, task_content: '', task_timestamp: new Date().getTime() });
       this.setState({ newEntry: currentEntry });
     }
   }
 
-  handleUpdateTask(currentEntry, taskData, taskKey) {
-    currentEntry.tasks = currentEntry.tasks.map(task => task.key === taskKey ? { ...task, content: taskData } : task);
+  handleUpdateTask(currentEntry, taskData, taskId) {
+    currentEntry.tasks = currentEntry.tasks.map(task => task.task_id === taskId ? { ...task, task_content: taskData } : task);
     this.setState({ newEntry: currentEntry });
   }
 
@@ -119,7 +109,7 @@ class App extends React.Component {
     if (currentEntry.tasks.length > 1) {
       let updatedEntry = {
         ...currentEntry,
-        tasks: currentEntry.tasks.filter(task => task.key !== taskId)
+        tasks: currentEntry.tasks.filter(task => task.task_id !== taskId)
       }
       this.setState({ newEntry: updatedEntry });
     }
@@ -137,8 +127,8 @@ class App extends React.Component {
           <Route exact path="/" render={() => 
             <StartScreen
               entries={this.state.entries}
-              addEntry={this.handleAddEntry}
               removeEntry={this.handleRemoveEntry}
+              updateState={this.updateState}
             />
             }
           />

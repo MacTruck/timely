@@ -28,7 +28,7 @@ app.post('/signUp',
   dbController.hashPassword,
   dbController.createUser,
   (req, res) => {
-    res.status(200).json({ userData: res.locals.userData });
+    res.status(200).json({ user_id: res.locals.user_id });
 });
 
 app.post('/login',
@@ -37,7 +37,7 @@ app.post('/login',
   // userController.addEntriesOnLogin,
   (req, res) => {
     const userData = {
-      _id: res.locals._id,
+      user_id: res.locals.user_id,
       username: res.locals.username,
       entries: res.locals.entries,
     }
@@ -46,9 +46,12 @@ app.post('/login',
 
 // Routes for entry submit and update
 app.post('/submitEntry',
-  userController.addEntry,
+  dbController.addProjects,
+  dbController.addEntries,
+  dbController.addTasks,
+  dbController.getUserData,
   (req, res) => {
-    res.sendStatus(200);
+    res.status(200).json({ entries: res.locals.entries });
 });
 
 app.post('/removeEntry',

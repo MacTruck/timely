@@ -18,9 +18,9 @@ const EntryItem = (props) => {
     // <Link to={`/entries/${props.entry.id}`}>
       <li>
         <img className="deleteEntry" alt="Delete entry" onClick={() => props.removeEntry(props.entry._id)} src={trashIcon} />
-        <span className="recordTitle">{props.entry.title}</span><span className="recordTasks">{props.entry.tasks[0].content}</span>
+        <span className="recordTitle">{props.entry.projectName}</span><span className="recordTasks">{props.entry.tasks[0].task_content}</span>
         <p>
-          {new Date(props.entry.timestamp).toLocaleDateString()} - {timeString}
+          {new Date(Number(props.entry.entry_timestamp)).toLocaleDateString()} - {timeString}
         </p>
       </li>
     // </Link>
@@ -33,10 +33,10 @@ const RecentEntries = (props) => {
       <h3>Recent Entries</h3>
       <React.Fragment>
         {props.entries
-          .sort((a, b) => a.timestamp > b.timestamp ? -1 : 1)
+          .sort((a, b) => a.entry_timestamp > b.entry_timestamp ? -1 : 1)
           .map(entry =>
             <EntryItem
-              key={entry.key} 
+              key={entry.entry_id} 
               entry={entry}
               removeEntry={props.removeEntry} />
           )}
@@ -46,9 +46,28 @@ const RecentEntries = (props) => {
 }
 
 const StartScreen = (props) => {
+
+  function handleAddEntry() {
+    let newEntry = {
+      temp_id: props.entries.length,
+      projectName: 'Project / Client',
+      entry_timestamp: new Date().getTime(),
+      elapsedTime: null,
+      tasks: [
+        {
+          task_id: 0,
+          task_content: '',
+          task_timestamp: new Date().getTime(),
+        }
+      ],
+    }
+
+    props.updateState({ newEntry });
+  }
+
   return (
     <div>
-      <Link to="/timer" id="startButton" className="mainButton" onClick={() => props.addEntry()}>Start Timer</Link>
+      <Link to="/timer" id="startButton" className="mainButton" onClick={handleAddEntry}>Start Timer</Link>
       <RecentEntries entries={props.entries} removeEntry={props.removeEntry} />
     </div>
   );
