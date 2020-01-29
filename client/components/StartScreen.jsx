@@ -16,10 +16,15 @@ const EntryItem = (props) => {
 
   return (
     // <Link to={`/entries/${props.entry.id}`}>
-      <li>
+      <li className="record">
         <img className="deleteEntry" alt="Delete entry" onClick={() => props.removeEntry(props.entry._id)} src={trashIcon} />
-        <span className="recordTitle">{props.entry.projectName}</span><span className="recordTasks">{props.entry.tasks[0].task_content}</span>
-        <p>
+        <span className="recordTitle">{props.entry.projectName}</span>
+        <ul>
+          {props.entry.tasks.map(task => {
+            return (<li className="recordTasks" key={task.task_id}>&bull; {task.task_content}</li>)
+          })}
+        </ul>
+        <p className="date">
           {new Date(Number(props.entry.entry_timestamp)).toLocaleDateString()} - {timeString}
         </p>
       </li>

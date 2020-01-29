@@ -6,7 +6,8 @@
 	--darkBlue: #1d9cb1;
 	--darkerBlue: #0e7a88;
 	--yellow: #ffe391;
-	--greengreen: #4caf50;
+  --greengreen: #4caf50;
+    --lightGreen: #6eb749;
 		--offwhite: #f5f6ee;				/* #fdfdee (more yellow) */
 		--lightOffwhite: #f6f7ee;
 		--darkOffwhite: #dfdfd0;
@@ -255,10 +256,13 @@ button:hover {
 ul {
 	list-style-type: none;
 }
+.taskList {
+
+}
 .recordList {
 	padding-bottom: 100px;
 }
-.recordList li {
+.recordList .record {
 	color: var(--darkJungle);
 	margin: 5px 10px;
 	padding: 10px 20px;
@@ -270,15 +274,18 @@ ul {
 	position: relative;
 	/*font-style: italic;*/
 }
-.recordList li:hover {
+.recordList .record:hover {
 	cursor: pointer;
 }
-.recordList li .recordTitle {
+.recordList .record .recordTitle {
 	font-weight: 700;
 	margin-right: .5em;
 }
-.recordList li .recordTasks {
+.recordList .record .recordTasks {
 	font-weight: 300;
+}
+.recordList .date {
+  color: var(--lightGreen);
 }
 img.deleteEntry {
 	position: absolute;
