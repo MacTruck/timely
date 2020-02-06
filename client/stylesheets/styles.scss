@@ -286,6 +286,10 @@ ul {
 }
 .recordList .date {
   color: var(--lightGreen);
+  border-top: 2px solid rgba(110, 183, 73, 0.25);
+  width: 75%;
+  margin-top: .5rem;
+  padding-left: 10px;
 }
 img.deleteEntry {
 	position: absolute;

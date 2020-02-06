@@ -11,11 +11,13 @@ const initialState = {
 
 const LoginScreen = (props) => {
   const [signupToggle, setSignupToggle] = useState(false);
+  const [loginErrors, setLoginErrors] = useState(null);
   const { handleChange, handleBlur, values, errors, isSubmitting } = useFormValidation(initialState)
 
-  function handleLogin() {
-    // Fetch Login Info
+  function handleLogin(e) {
     if (Object.keys(errors).length === 0) {
+      let currentButton = e.target;
+      currentButton.innerText = 'Pending...';
       const loginValues = {...values};
       if (props.entries.length) {
         loginValues.newEntries = [...props.entries];
@@ -33,12 +35,17 @@ const LoginScreen = (props) => {
           props.updateState(data.userData);
           props.setLoginToggle(false);
         })
-        .catch(err => console.log('Error in handleLogin: ', err));
+        .catch(err => {
+          console.log('Error in handleLogin: ', err);
+          setLoginErrors('Incorrect username or password');
+          currentButton.innerText = 'Log In';
+        });
     }
   }
 
-  function handleSignup() {
-    // Fetch Signup Route
+  function handleSignup(e) {
+    let currentButton = e.target;
+    currentButton.innerText = 'Pending...';
     if (Object.keys(errors).length === 0) {
       fetch('/signup', {
         method: 'POST',
@@ -49,10 +56,14 @@ const LoginScreen = (props) => {
       })
         .then(response => response.json())
         .then(data => {
-          props.updateState({ user_id: data.user_id });
+          props.updateState(data.userData);
           props.setLoginToggle(false);
         })
-        .catch(err => console.log('Error in handleSignup: ', err));
+        .catch(err => {
+          console.log('Error in handleSignup: ', err);
+          setLoginErrors('Unable to add account');
+          currentButton.innerText = 'Sign Up';
+        })
     }
   }
 
@@ -108,6 +119,7 @@ const LoginScreen = (props) => {
         autoComplete="off" 
       />
       {errors.password && <p className="error-text">{errors.password}</p>}
+      {loginErrors && <p className="error-text">{loginErrors}</p>}
       { signupToggle ? signupButton : loginButton }
       <div
         id="signupToggle"

@@ -35,7 +35,7 @@ dbController.createUser = (req, res, next) => {
       return next();
     })
     .catch(err => {
-      console.log(`Error in dbController.addUser: ${err}`);
+      console.log(`Error in dbController.createUser: ${err}`);
       res.locals.errors = 'Email already registered';
       return next(err);
     });

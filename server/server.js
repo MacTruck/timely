@@ -28,7 +28,11 @@ app.post('/signUp',
   dbController.hashPassword,
   dbController.createUser,
   (req, res) => {
-    res.status(200).json({ user_id: res.locals.user_id });
+    const userData = {
+      user_id: res.locals.user_id,
+      username: req.body.username,
+    }
+    res.status(200).json({ userData });
 });
 
 app.post('/login',
@@ -68,11 +72,10 @@ app.use('*', (req, res) => {
 
 app.use((err, req, res, next) => {
   console.log('global error handler: ', err);
-  if (res.locals.errors) {
-    res.status(500).json({ errors: res.locals.errors });
-  } else {
+  // if (res.locals.errors) {
+  //   res.status(500).json({ errors: res.locals.errors });
+  // } else {
     res.status(500).send('500 Internal Server Error');
-  }
 });
 
 // Start Server ---------------------------
