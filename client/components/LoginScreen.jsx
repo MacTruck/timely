@@ -7,6 +7,8 @@ const initialState = {
   username: '',
 }
 
+// onSubmit -> change button to pending animation
+
 const LoginScreen = (props) => {
   const [signupToggle, setSignupToggle] = useState(false);
   const { handleChange, handleBlur, values, errors, isSubmitting } = useFormValidation(initialState)
