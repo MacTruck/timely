@@ -72,10 +72,7 @@ app.use('*', (req, res) => {
 
 app.use((err, req, res, next) => {
   console.log('global error handler: ', err);
-  // if (res.locals.errors) {
-  //   res.status(500).json({ errors: res.locals.errors });
-  // } else {
-    res.status(500).send('500 Internal Server Error');
+  res.status(500).send('500 Internal Server Error');
 });
 
 // Start Server ---------------------------

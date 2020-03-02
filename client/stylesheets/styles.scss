@@ -176,7 +176,7 @@ form {
   width: 100%;
   height: 75vh;
   margin-top: 50px;
-  padding: 5px;
+  padding: 10px;
   background: var(--offwhite);
   button {
     margin: 10px 0;
@@ -286,18 +286,14 @@ ul {
 }
 .recordList .date {
   color: var(--lightGreen);
-  border-top: 2px solid rgba(110, 183, 73, 0.25);
   width: 75%;
   margin-top: .5rem;
-  padding-left: 10px;
 }
 img.deleteEntry {
 	position: absolute;
 	bottom: 10px;
 	right: 8px;
 	width: 16px;
-	-webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .125));
-  	filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .125));
 }
 #notFound {
 	margin: 200px 0;
